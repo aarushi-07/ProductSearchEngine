@@ -14,8 +14,7 @@ import spellCheck.TST;
 
 /**
  * Main class to start the web search engine
- * @author Navjot Makkar, Akshit Bhatia, 
- * Gagan Singh Golar and Utsav Krishnatra
+ * @author 
  *
  */
 public class SearchEngine {

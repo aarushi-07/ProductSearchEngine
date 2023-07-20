@@ -8,7 +8,7 @@ import java.util.Hashtable;
 /**
  * Class for Pattern search
  * 
- * @author (Utsav Krishnatra)
+ * @author
  */
 
 //class that searches patterns that match the string searchPattern

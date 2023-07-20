@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * @author Akshit Bhatia 
+ * @author 
  */
 
 // Structure of the Ternary Search Tree node

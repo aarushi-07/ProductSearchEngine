@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /*
- * @author Akshit Bhatia
+ * @author 
  */
 
 // Class for Spell check

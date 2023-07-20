@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
 import spellCheck.SpellCheck;
 
 /**
- * @author utsav krishnatra
+ * @author
  *
  */
 public class pageRanking {
