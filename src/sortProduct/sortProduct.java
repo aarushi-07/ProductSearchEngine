@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 class Product {
@@ -24,7 +25,10 @@ public class sortProduct {
 
         List<Product> productList = readDataFromFile(filePath);
         if (productList != null) {
-            mergeSort(productList, 0, productList.size() - 1);
+            // Sort by price
+            mergeSort(productList, Comparator.comparingDouble(product -> product.price));
+            // Alternatively, sort by rating
+            //mergeSort(productList, Comparator.comparingDouble(product -> product.rating));
 
             // Print the sorted list
             for (Product product : productList) {
@@ -50,51 +54,41 @@ public class sortProduct {
         return productList;
     }
 
-    private static void mergeSort(List<Product> productList, int left, int right) {
-        if (left < right) {
-            int mid = left + (right - left) / 2;
-            mergeSort(productList, left, mid);
-            mergeSort(productList, mid + 1, right);
-            merge(productList, left, mid, right);
-        }
-    }
+    private static <T> void mergeSort(List<T> list, Comparator<? super T> comparator) {
+        if (list.size() > 1) {
+            int mid = list.size() / 2;
+            List<T> leftList = new ArrayList<>(list.subList(0, mid));
+            List<T> rightList = new ArrayList<>(list.subList(mid, list.size()));
 
-    private static void merge(List<Product> productList, int left, int mid, int right) {
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
+            mergeSort(leftList, comparator);
+            mergeSort(rightList, comparator);
 
-        List<Product> leftList = new ArrayList<>();
-        List<Product> rightList = new ArrayList<>();
+            int i = 0, j = 0, k = 0;
+            while (i < leftList.size() && j < rightList.size()) {
+                T left = leftList.get(i);
+                T right = rightList.get(j);
 
-        for (int i = 0; i < n1; i++) {
-            leftList.add(productList.get(left + i));
-        }
-        for (int j = 0; j < n2; j++) {
-            rightList.add(productList.get(mid + 1 + j));
-        }
-
-        int i = 0, j = 0, k = left;
-        while (i < n1 && j < n2) {
-            if (leftList.get(i).price <= rightList.get(j).price) {
-                productList.set(k, leftList.get(i));
-                i++;
-            } else {
-                productList.set(k, rightList.get(j));
-                j++;
+                if (comparator.compare(left, right) <= 0) {
+                    list.set(k, left);
+                    i++;
+                } else {
+                    list.set(k, right);
+                    j++;
+                }
+                k++;
             }
-            k++;
-        }
 
-        while (i < n1) {
-            productList.set(k, leftList.get(i));
-            i++;
-            k++;
-        }
+            while (i < leftList.size()) {
+                list.set(k, leftList.get(i));
+                i++;
+                k++;
+            }
 
-        while (j < n2) {
-            productList.set(k, rightList.get(j));
-            j++;
-            k++;
+            while (j < rightList.size()) {
+                list.set(k, rightList.get(j));
+                j++;
+                k++;
+            }
         }
     }
 }
