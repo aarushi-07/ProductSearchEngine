@@ -13,7 +13,7 @@ import sortProduct.sortProduct;
 import spellCheck.SpellCheck;
 import spellCheck.TST;
 import wordCompletion.WordCompletion;
-import wordCompletion.Trie;
+import scrapper.productScrapper;
 
 
 /**
@@ -46,7 +46,8 @@ public class SearchEngine {
 		System.out.println("3. Sort product based on criteria");
 		System.out.println("4. Show Frequently visited Products");
 		System.out.println("5. Product suggestion based on name");
-		System.out.println("6. Exit from search engine \n");
+		System.out.println("6. Get Product data from Google");
+		System.out.println("7. Exit from search engine \n");
 		System.out.println("Selection:: ");
 		
 		
@@ -114,23 +115,13 @@ public class SearchEngine {
 				  else {
 				  System.out.println("No suggestions found for prefix '" + query + "'."); 
 				  }
-				 
-				
-				/*
-				 * Trie trie = new Trie(); trie.insert("apple"); trie.insert("banana");
-				 * trie.insert("band"); trie.insert("banquet");
-				 * 
-				 * String prefix = "ban"; List<String> suggestions =
-				 * trie.getSuggestions(prefix);
-				 * 
-				 * if (!suggestions.isEmpty()) { System.out.println("Suggestions for prefix '" +
-				 * prefix + "':"); for (String word : suggestions) { System.out.println(word); }
-				 * } else { System.out.println("No suggestions found for prefix '" + prefix +
-				 * "'."); }
-				 */
 				
 				break;
 			case "6":
+				System.out.println("Geting Product data from Google and savig it into product_data.csv");
+				productScrapper ps = new productScrapper();
+				ps.getProductData();
+			case "7":
 				System.out.println("Thank you!");
 				sc.close();
 				System.exit(0);
