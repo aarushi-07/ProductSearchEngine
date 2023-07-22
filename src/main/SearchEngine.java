@@ -3,13 +3,17 @@ package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import FrequencyCounter.FrequencyCounter;
 import searchHistory.SearchHistory;
 import searchProduct.pageRanking;
+import sortProduct.sortProduct;
 import spellCheck.SpellCheck;
 import spellCheck.TST;
+import wordCompletion.WordCompletion;
+import wordCompletion.Trie;
 
 
 /**
@@ -39,9 +43,9 @@ public class SearchEngine {
 		System.out.print("\n\nChoices?\n\n");
 		System.out.println("1. Search a Product");
 		System.out.println("2. Check if you Spelled the Product right");
-		System.out.println("3. Check Product Suggestion");
+		System.out.println("3. Sort product based on criteria");
 		System.out.println("4. Show Frequently visited Products");
-		System.out.println("5. ---------");
+		System.out.println("5. Product suggestion based on name");
 		System.out.println("6. Exit from search engine \n");
 		System.out.println("Selection:: ");
 		
@@ -80,12 +84,13 @@ public class SearchEngine {
 
 			case "3":
 				// Input from user
-				System.out.print("Enter a word to get it's Product suggestion:: ");
+				System.out.print("Enter the sort criteria from price, rating:: ");
 				query = sc.nextLine();
 				//Storing to history
 				history.addSearch(query);
 				// Call method for get suggestions
-				TST.suggestion(query);
+				sortProduct sp = new sortProduct();
+				sp.sortCriteria(query);
 				break;
 			
 			case "4":
@@ -94,9 +99,36 @@ public class SearchEngine {
 				break;
 
 			case "5":
-				//Calling function to display history
-				// Prints the title of the most recent entry
-				history.printHistory();
+				System.out.print("Enter a Product to complete it's word suggestion:: ");
+				query = sc.nextLine();
+				//Storing to history
+				history.addSearch(query);
+				
+				  WordCompletion wc = new WordCompletion(); 
+				  List<String> suggestions = wc.getSuggestions(query); 
+				  if (!suggestions.isEmpty()) {
+				  System.out.println("Suggestions for prefix '" + query + "':");
+				  for (String word : suggestions) 
+				  { System.out.println(word); }
+				  } 
+				  else {
+				  System.out.println("No suggestions found for prefix '" + query + "'."); 
+				  }
+				 
+				
+				/*
+				 * Trie trie = new Trie(); trie.insert("apple"); trie.insert("banana");
+				 * trie.insert("band"); trie.insert("banquet");
+				 * 
+				 * String prefix = "ban"; List<String> suggestions =
+				 * trie.getSuggestions(prefix);
+				 * 
+				 * if (!suggestions.isEmpty()) { System.out.println("Suggestions for prefix '" +
+				 * prefix + "':"); for (String word : suggestions) { System.out.println(word); }
+				 * } else { System.out.println("No suggestions found for prefix '" + prefix +
+				 * "'."); }
+				 */
+				
 				break;
 			case "6":
 				System.out.println("Thank you!");

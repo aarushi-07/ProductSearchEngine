@@ -20,22 +20,28 @@ class Product {
 }
 
 public class sortProduct {
-    public static void main(String[] args) {
-        String filePath = "product.txt"; // Replace with the actual file path
+	
+	public void sortCriteria(String criteria) {
+    String filePath = "product.txt";
 
-        List<Product> productList = readDataFromFile(filePath);
-        if (productList != null) {
-            // Sort by price
+    List<Product> productList = readDataFromFile(filePath);
+    if (productList != null) {
+        // Sort based on criteria
+        if (criteria.equalsIgnoreCase("price")) {
             mergeSort(productList, Comparator.comparingDouble(product -> product.price));
-            // Alternatively, sort by rating
-            //mergeSort(productList, Comparator.comparingDouble(product -> product.rating));
+        } else if (criteria.equalsIgnoreCase("rating")) {
+            mergeSort(productList, Comparator.comparingDouble(product -> product.rating));
+        } else {
+            System.out.println("Invalid sort criteria: " + criteria);
+            return;
+        }
 
-            // Print the sorted list
-            for (Product product : productList) {
-                System.out.println(product.name + ", " + product.price + ", " + product.rating);
-            }
+        // Print the sorted list
+        for (Product product : productList) {
+            System.out.println(product.name + ", " + product.price + ", " + product.rating);
         }
     }
+}
 
     private static List<Product> readDataFromFile(String filePath) {
         List<Product> productList = new ArrayList<>();
