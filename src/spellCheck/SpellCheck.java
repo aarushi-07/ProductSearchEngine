@@ -15,10 +15,11 @@ import java.io.IOException;
 // Class for Spell check
 public class SpellCheck {
 	
-	// Constructor for class SpellCheck
-	public SpellCheck() {
-		
-	}
+	private ArrayList<String> dictionary;
+
+    public SpellCheck() {
+        dictionary = new ArrayList<>();
+    }
 
 	/**
 	 * Method to check input word spelling
@@ -27,54 +28,17 @@ public class SpellCheck {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void checkSpelling(String input) throws FileNotFoundException, IOException {
+	public void checkSpelling(String input) throws IOException {
+        loadDictionary("product_data.txt");
 
-		EditDistance ed = new EditDistance();
-		String line;
-		ArrayList<String> dict = new ArrayList<String>();
-		// object of dictionary file
-		File file = new File("product_data.txt");
+        String word = input.trim().toLowerCase();
 
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-
-			while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-
-                // Extracting three values from each line
-                if (values.length == 3) {
-                    String value1 = values[0].trim();
-                    dict.add(value1);
-                    }
-			// to store all the words
-			
-			}
-
-			int distance, edOne = 10, edTwo = 10;
-			String wordOne = null;
-
-			// iterating over each word in dictionary array list
-			for (String eachWord : dict) {
-
-				// if correct
-				if (eachWord.equals(input)) {
-					System.out.println("Spelling is correct");
-					return;
-				}
-
-				// checking edit distance of word in dictionary to user input
-				distance = ed.editDistance(eachWord, input);
-				// checking if edit distance is smallest possible, in order to generate only two
-				// responses
-				if (distance < edTwo) {
-					if (distance < edOne) {
-						edOne = distance;
-						wordOne = eachWord;
-					}
-				}
-			}
-			System.out.println("Please check the spelling of your input, did you mean: '" + wordOne + "' ?");
-		}
-	}
+        if (dictionary.contains(word)) {
+            System.out.println("Spelling is correct");
+        } else {
+            System.out.println("Please check the spelling of your input, did you mean: '" + provideSuggestion(word) + "' ?");
+        }
+    }
 
 	/*
 	 * Method provides search suggestions
@@ -83,35 +47,42 @@ public class SpellCheck {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void provideSuggestion(String input) throws FileNotFoundException, IOException {
-		EditDistance ed = new EditDistance();
-		File file = new File("product.txt");
+	public String provideSuggestion(String word) throws IOException {
+        EditDistance ed = new EditDistance();
+        String suggestedWord = null;
+        int minDistance = Integer.MAX_VALUE;
 
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			ArrayList<String> dict = new ArrayList<String>();
-			String line;
+        for (String dictWord : dictionary) {
+            int distance = ed.editDistance(dictWord, word);
+            if (distance < minDistance) {
+                minDistance = distance;
+                suggestedWord = dictWord;
+            }
+        }
 
-			while ((line = br.readLine()) != null)
-				dict.add(line);
-			br.close();
+        return suggestedWord;
+    }
 
-			int distance, firstED = 10, secondED = 10;
-			String firstWord = null, secondWord = null;
-
-			for (String word : dict) {
-				distance = ed.editDistance(word, input);
-
-				if (distance < secondED) {
-					if (distance < firstED) {
-						firstED = distance;
-						firstWord = word;
-					} else {
-						secondED = distance;
-						secondWord = word;
-					}
-				}
+    public void loadDictionary(String dictionaryFilePath) throws IOException {
+        File file = new File(dictionaryFilePath);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String value1 = line.split(",")[0].trim().toLowerCase();
+                dictionary.add(value1);
+            }
+        }
+    }
+    
+    public void getData(String userInput) {
+        // Check if the sentence match is found
+            System.out.println("User Input: " + userInput);
+            try {
+				checkSpelling(userInput);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			System.out.println("\nDid you mean: '" + firstWord + "' or '" + secondWord + "' ?");
-		}
-	}
+            
+    }
 }

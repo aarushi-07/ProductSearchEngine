@@ -80,7 +80,7 @@ public class SearchEngine {
 				SpellCheck suggestSpelling = new SpellCheck();
 
 				// Call method for spell-check
-				suggestSpelling.checkSpelling(query.toLowerCase());
+				suggestSpelling.getData(query);
 				break;
 
 			case "3":
