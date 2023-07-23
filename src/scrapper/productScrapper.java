@@ -117,7 +117,7 @@ public class productScrapper {
                 String escapedProductName = productName.replace("\"", "\"\"");
                 
                 // Save the data to the CSV file with escaped productName and productPrice
-                writer.write(escapedProductName + ",\"" + productPrice + "\"," + productSite + "\n");
+                writer.write(escapedProductName + "," + productPrice + "," + productSite + "\n");
             }
         }
     }
