@@ -33,7 +33,7 @@ public class SpellCheck {
 		String line;
 		ArrayList<String> dict = new ArrayList<String>();
 		// object of dictionary file
-		File file = new File("product.txt");
+		File file = new File("product_data.txt");
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 

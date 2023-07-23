@@ -38,7 +38,7 @@ public class pageRanking {
 		rankedPageIndex = 1;
 
 		// Search query in dictionary
-		File fileLexicon = new File("product.txt");
+		File fileLexicon = new File("product_data.txt");
 
 		// if the word is found in the dictionary; return true, else return false
 		boolean ifWordExists = false;

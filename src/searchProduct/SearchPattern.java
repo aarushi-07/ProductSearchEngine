@@ -27,7 +27,7 @@ public class SearchPattern {
         // Hashtable that stores the rank of words found while going through the list.
         Hashtable<String, Integer> pageRank = new Hashtable<String, Integer>();
         // Path to the CSV file to be searched
-        String filePath = "product.txt";
+        String filePath = "product_data.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;

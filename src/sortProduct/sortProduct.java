@@ -22,16 +22,18 @@ class Product {
 public class sortProduct {
 	
 	public void sortCriteria(String criteria) {
-    String filePath = "product.txt";
+    String filePath = "product_data.txt";
 
     List<Product> productList = readDataFromFile(filePath);
     if (productList != null) {
         // Sort based on criteria
         if (criteria.equalsIgnoreCase("price")) {
             mergeSort(productList, Comparator.comparingDouble(product -> product.price));
-        } else if (criteria.equalsIgnoreCase("rating")) {
-            mergeSort(productList, Comparator.comparingDouble(product -> product.rating));
-        } else {
+		} /*
+			 * else if (criteria.equalsIgnoreCase("rating")) { mergeSort(productList,
+			 * Comparator.comparingDouble(product -> product.rating));
+			 
+        } */else {
             System.out.println("Invalid sort criteria: " + criteria);
             return;
         }

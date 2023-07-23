@@ -80,7 +80,7 @@ public class WordCompletion {
     }
 
     public List<String> getSuggestions(String prefix) {
-    	String productFilePath = "product.txt";
+    	String productFilePath = "product_data.txt";
         List<String> fileList = readProductFromFile(productFilePath);
         for (String trieValue : fileList)
             insert(trieValue);

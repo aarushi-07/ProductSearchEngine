@@ -20,8 +20,6 @@ public class productScrapper {
         driver.get(url);
 
         // List of search terms to be used
-//        String[] searchTerms = {"iphone", "laptop", "pendrive", "hard disk", "SSD", "keyboard", 
-//        		"fan", "speakers", "camera", "tv", "monitor", "headphones", "lights"};
         String[] searchTerms = {
         	    "iphone",
         	    "laptop",
@@ -49,15 +47,11 @@ public class productScrapper {
         	    "smart home devices",
         	    "e-book reader"
         	};
-
-//        String[] searchTerms = {"Electronics", "Home Decor", "Kitchen & Dining", "Toys", "Crafts & Hobbies", "Kitchen Appliances"};
-        
+       
         try {
             // Create a FileWriter instance to save the data to a CSV file
-            try (FileWriter writer = new FileWriter("product_data.csv")) {
-                // Write the heading to the CSV file
-                writer.write("Product Name,Product Price,Product Stars\n");
-
+            try (FileWriter writer = new FileWriter("product_data.txt")) {
+                
                 for (String searchTerm : searchTerms) {
                     // Find the search bar and enter the current search term
                     WebElement searchBox = driver.findElement(By.name("q"));
@@ -107,20 +101,23 @@ public class productScrapper {
                 WebElement productPriceElement = productCard.findElement(By.cssSelector("span.a8Pemb.OFFNJ"));
                 String productPrice = productPriceElement.getText();
 
-                // Product Stars (Rating)
-                WebElement productStarsElement = productCard.findElement(By.cssSelector("div.aULzUe.IuHnof"));
-                String productStars = productStarsElement.getText();
+                // Product Site
+                WebElement productSiteElement = productCard.findElement(By.cssSelector("div.aULzUe.IuHnof"));
+                String productSite = productSiteElement.getText();
 
                 // Print the extracted information
-                System.out.println("Product Name: " + productName);
-                System.out.println("Product Price: " + productPrice);
-                System.out.println("Product Stars: " + productStars);
-                System.out.println("----------------------------------------");
+				/*
+				 * System.out.println("Product Name: " + productName);
+				 * System.out.println("Product Price: " + productPrice);
+				 * System.out.println("Product Stars: " + productStars);
+				 * System.out.println("----------------------------------------");
+				 */
 
-                // Escape commas in the productName and enclose the entire data in double quotes
-                String escapedProductName = "\"" + productName.replace("\"", "\"\"") + "\"";
+                // Escape commas in the productName
+                String escapedProductName = productName.replace("\"", "\"\"");
+                
                 // Save the data to the CSV file with escaped productName and productPrice
-                writer.write(escapedProductName + ",\"" + productPrice + "\"," + productStars + "\n");
+                writer.write(escapedProductName + ",\"" + productPrice + "\"," + productSite + "\n");
             }
         }
     }
