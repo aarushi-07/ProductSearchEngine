@@ -10,39 +10,39 @@ import java.util.List;
 class Product {
     String name;
     double price;
-    double rating;
+    String site;
 
-    Product(String name, double price, double rating) {
+    Product(String name, double price, String site) {
         this.name = name;
         this.price = price;
-        this.rating = rating;
+        this.site = site;
     }
 }
 
 public class sortProduct {
 	
-	public void sortCriteria(String criteria) {
+	public void sortCriteria() {
     String filePath = "product_data.txt";
 
     List<Product> productList = readDataFromFile(filePath);
     if (productList != null) {
         // Sort based on criteria
-        if (criteria.equalsIgnoreCase("price")) {
+        //if (criteria.equalsIgnoreCase("price")) {
             mergeSort(productList, Comparator.comparingDouble(product -> product.price));
-		} /*
+		} 
+    /*
 			 * else if (criteria.equalsIgnoreCase("rating")) { mergeSort(productList,
 			 * Comparator.comparingDouble(product -> product.rating));
 			 
-        } */else {
+        } else {
             System.out.println("Invalid sort criteria: " + criteria);
             return;
-        }
+        }*/
 
         // Print the sorted list
         for (Product product : productList) {
-            System.out.println(product.name + ", " + product.price + ", " + product.rating);
+            System.out.println(product.name + ", " + product.price + ", " + product.site);
         }
-    }
 }
 
     private static List<Product> readDataFromFile(String filePath) {
@@ -50,11 +50,13 @@ public class sortProduct {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
+            	//System.out.println(line);
                 String[] data = line.split(",");
+                System.out.println(data[1]);
                 String product = data[0].trim();
-                double price = Double.parseDouble(data[1].trim());
-                double rating = Double.parseDouble(data[2].trim());
-                productList.add(new Product(product, price, rating));
+                double price = Double.parseDouble(data[1]);
+                String site = data[2].trim();
+                productList.add(new Product(product, price, site));
             }
         } catch (IOException e) {
             e.printStackTrace();

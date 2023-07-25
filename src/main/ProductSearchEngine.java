@@ -81,13 +81,13 @@ public class ProductSearchEngine {
 
 			case "3":
 				// Input from user
-				System.out.print("Enter the sort criteria from price, rating:: ");
-				query = sc.nextLine();
+				//System.out.print("Enter the sort criteria from price, rating:: ");
+				//query = sc.nextLine();
 				//Storing to history
-				history.addSearch(query);
+				//history.addSearch(query);
 				// Call method for get suggestions
 				sortProduct sp = new sortProduct();
-				sp.sortCriteria(query);
+				sp.sortCriteria();
 				break;
 			
 			case "4":
