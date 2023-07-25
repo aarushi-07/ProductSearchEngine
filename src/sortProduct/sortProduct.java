@@ -27,18 +27,8 @@ public class sortProduct {
     List<Product> productList = readDataFromFile(filePath);
     if (productList != null) {
         // Sort based on criteria
-        //if (criteria.equalsIgnoreCase("price")) {
             mergeSort(productList, Comparator.comparingDouble(product -> product.price));
 		} 
-    /*
-			 * else if (criteria.equalsIgnoreCase("rating")) { mergeSort(productList,
-			 * Comparator.comparingDouble(product -> product.rating));
-			 
-        } else {
-            System.out.println("Invalid sort criteria: " + criteria);
-            return;
-        }*/
-
         // Print the sorted list
         for (Product product : productList) {
             System.out.println(product.name + ", " + product.price + ", " + product.site);
@@ -50,8 +40,7 @@ public class sortProduct {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-            	//System.out.println(line);
-                String[] data = line.split(",");
+            	String[] data = line.split(",");
                 System.out.println(data[1]);
                 String product = data[0].trim();
                 double price = Double.parseDouble(data[1]);
