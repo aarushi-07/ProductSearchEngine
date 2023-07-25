@@ -117,8 +117,9 @@ public class productScrapper {
                 String escapedProductName = productName.replace("\"", "\"\"");
                 escapedProductName = escapedProductName.replace(",", "");
                 
-                //Escape dollar in the productPrice
+                //Escape dollar, commas in the productPrice
                 String escapedproductPrice = productPrice.replace("$", "");
+                escapedproductPrice = escapedproductPrice.replace(",", "");
                 
                 // Save the data to the CSV file with escaped productName and productPrice
                 writer.write(escapedProductName + "," + escapedproductPrice + "," + productSite + "\n");
