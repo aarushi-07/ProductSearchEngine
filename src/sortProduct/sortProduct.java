@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
 class Product {
     String name;
@@ -20,27 +21,48 @@ class Product {
 }
 
 public class sortProduct {
-	
-	public void sortCriteria() {
-    String filePath = "product_data.txt";
 
-    List<Product> productList = readDataFromFile(filePath);
-    if (productList != null) {
-        // Sort based on criteria
-            mergeSort(productList, Comparator.comparingDouble(product -> product.price));
-		} 
-        // Print the sorted list
-        for (Product product : productList) {
-            System.out.println(product.name + ", " + product.price + ", " + product.site);
+    public void sortCriteria(int sortingChoice) {
+        String filePath = "product_data.txt";
+
+        List<Product> productList = readDataFromFile(filePath);
+        if (productList != null) {
+
+            Comparator<Product> comparator;
+            switch (sortingChoice) {
+                case 1:
+                    comparator = Comparator.comparing(product -> product.name);
+                    break;
+                case 2:
+                    comparator = Comparator.comparingDouble(product -> product.price);
+                    break;
+                case 3:
+                    comparator = Comparator.comparing(product -> product.site);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Sorting by name will be performed by default.");
+                    comparator = Comparator.comparing(product -> product.name);
+                    break;
+            }
+
+            mergeSort(productList, comparator);
+
+            // Print the sorted list
+            for (Product product : productList) {
+                System.out.println("Name: " + product.name);
+                System.out.println("Price: " + product.price);
+                System.out.println("Site: " + product.site);
+                System.out.println("----------------------------------------------");
+            }
         }
-}
+    }
 
     private static List<Product> readDataFromFile(String filePath) {
         List<Product> productList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-            	String[] data = line.split(",");
+                String[] data = line.split(",");
                 String product = data[0].trim();
                 double price = Double.parseDouble(data[1]);
                 String site = data[2].trim();

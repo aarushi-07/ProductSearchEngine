@@ -18,7 +18,7 @@ import scrapper.productScrapper;
 /**
  * Main class to start the web search engine
  * @author Aarushi Bagri, Darsh Bhavesh Bhatt, Dhvani Sheth
- * Ridhi Yogesh Jobanputra, Aesha Indravadan Mehta
+ * Riddhi Yogesh Jobanputra, Aesha Indravadan Mehta
  *
  */
 public class ProductSearchEngine {
@@ -80,9 +80,11 @@ public class ProductSearchEngine {
 				break;
 
 			case "3":
+				System.out.println("Enter the sorting criteria: (1) Name  (2) Price  (3) Site");
+				int choice = sc.nextInt();
 				// Call method for sorting
 				sortProduct sp = new sortProduct();
-				sp.sortCriteria();
+				sp.sortCriteria(choice);
 				break;
 			
 			case "4":
@@ -93,15 +95,15 @@ public class ProductSearchEngine {
 			case "5":
 				System.out.print("Enter a Product to complete it's suggestion:: ");
 				query = sc.nextLine();
-				//Storing to history
-				history.addSearch(query);
 				
 				  WordCompletion wc = new WordCompletion(); 
 				  List<String> suggestions = wc.getSuggestions(query); 
 				  if (!suggestions.isEmpty()) {
 				  System.out.println("Suggestions for prefix '" + query + "':: ");
 				  for (String word : suggestions) 
-				  { System.out.println(word); }
+				  { System.out.println(word); 
+				  	//Storing to history
+					history.addSearch(word);}
 				  } 
 				  else {
 				  System.out.println("No suggestions found for prefix '" + query + "'."); 
