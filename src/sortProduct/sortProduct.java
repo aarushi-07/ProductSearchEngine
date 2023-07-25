@@ -41,7 +41,6 @@ public class sortProduct {
             String line;
             while ((line = br.readLine()) != null) {
             	String[] data = line.split(",");
-                System.out.println(data[1]);
                 String product = data[0].trim();
                 double price = Double.parseDouble(data[1]);
                 String site = data[2].trim();
