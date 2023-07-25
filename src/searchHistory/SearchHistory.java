@@ -1,53 +1,80 @@
 package searchHistory;
 
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
-
-/*
- * Method to store entered input as history
- * @param maxSize limit to size of saved searches
- * @param freq keep track of frequency of search words
- */
-
-/**
- * @author
- */
-
-//Function to save all inputs entered by user
 public class SearchHistory {
-    private Map<String, Integer> freqMap;
-    private PriorityQueue<String> pq;
-    private int maxSize;
 
-//Create hashmap to store inputs
-    public SearchHistory(int maxSize) {
-        this.maxSize = maxSize;
-        freqMap = new HashMap<>();
-        //Priority queue to store the frequency of search queries
-        pq = new PriorityQueue<>((a, b) -> freqMap.get(a) - freqMap.get(b));
-    }
+	private static class TreeNode {
 
-    //Add new search query
-    public void addSearch(String search) {
-        //Repeatition of query increments the frequency of searches
-        int freq = freqMap.getOrDefault(search, 0) + 1;
-        freqMap.put(search, freq);
-        pq.remove(search);
-        pq.add(search);
-        if (pq.size() > maxSize) {
-            freqMap.remove(pq.poll());
-        }
-    }
+		String key;
+		int frequency;
+		TreeNode left;
+		TreeNode right;
 
-    //Printing the stored history
-    public void printHistory() {
-        PriorityQueue<String> tempPq = new PriorityQueue<>((a, b) -> freqMap.get(b) - freqMap.get(a));
-        tempPq.addAll(pq);
-        while (!tempPq.isEmpty()) {
-            String search = tempPq.poll();
-            System.out.println(search + " - " + freqMap.get(search));
-        }
-    }
-    }
+		public TreeNode(String key, int frequency) {
+			this.key = key;
+			this.frequency = frequency;
+			this.left = null;
+			this.right = null;
+		}
+
+	}
+
+	private TreeNode root;
+	private int maxSize;
+
+	public SearchHistory(int maxSize) {
+		this.maxSize = maxSize;
+		this.root = null;
+	}
+
+	public void addSearch(String search) {
+		root = addSearchHelper(root, search);
+	}
+
+	private TreeNode addSearchHelper(TreeNode node, String search) {
+		if (node == null) {
+			return new TreeNode(search, 1);
+		}
+
+		int cmp = search.compareTo(node.key);
+		if (cmp == 0) {
+			node.frequency++;
+		} else if (cmp < 0) {
+			node.left = addSearchHelper(node.left, search);
+		} else {
+			node.right = addSearchHelper(node.right, search);
+		}
+		return node;
+	}
+
+	public int getOrDefault(String search, int defaultValue) {
+		return getOrDefaultHelper(root, search, defaultValue);
+	}
+
+	private int getOrDefaultHelper(TreeNode node, String search, int defaultValue) {
+		if (node == null) {
+			return defaultValue;
+		}
+
+		int cmp = search.compareTo(node.key);
+		if (cmp == 0) {
+			return node.frequency;
+		} else if (cmp < 0) {
+			return getOrDefaultHelper(node.left, search, defaultValue);
+		} else {
+			return getOrDefaultHelper(node.right, search, defaultValue);
+		}
+	}
+
+	public void printHistory() {
+		printHistoryHelper(root);
+	}
+
+	private void printHistoryHelper(TreeNode node) {
+		if (node != null) {
+			printHistoryHelper(node.left);
+			System.out.println(node.key + " - " + node.frequency);
+			printHistoryHelper(node.right);
+		}
+	}
+
+}
