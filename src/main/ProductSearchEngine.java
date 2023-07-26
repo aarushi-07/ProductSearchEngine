@@ -15,8 +15,8 @@ import scrapper.productScrapper;
 /**
  * Main class to start the web search engine
  * 
- * @author Aarushi Bagri, Darsh Bhavesh Bhatt, Dhvani Sheth Riddhi Yogesh
- *         Jobanputra, Aesha Indravadan Mehta
+ * @author Aarushi Bagri, Darsh Bhavesh Bhatt, Dhvani Sheth 
+ * Riddhi Yogesh Jobanputra, Aesha Indravadan Mehta
  *
  */
 public class ProductSearchEngine {
