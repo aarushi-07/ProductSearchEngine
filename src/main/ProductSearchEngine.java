@@ -42,7 +42,7 @@ public class ProductSearchEngine {
 		System.out.println("2. Check if you Spelled the Product right");
 		System.out.println("3. Sort product based on criteria");
 		System.out.println("4. Show Frequently visited Products");
-		System.out.println("5. Product suggestion based on name");
+		System.out.println("5. Product suggestion based on product prefix");
 		System.out.println("6. Get Product data from Google");
 		System.out.println("7. Exit from search engine \n");
 		System.out.println("Selection:: ");
@@ -93,17 +93,19 @@ public class ProductSearchEngine {
 				break;
 
 			case "5":
-				System.out.print("Enter a Product to complete it's suggestion:: ");
+				System.out.print("Enter a Product prefix to complete it's suggestion:: ");
 				query = sc.nextLine();
 				
 				  WordCompletion wc = new WordCompletion(); 
+				  //Getting list of suggestions
 				  List<String> suggestions = wc.getSuggestions(query); 
 				  if (!suggestions.isEmpty()) {
 				  System.out.println("Suggestions for prefix '" + query + "':: ");
 				  for (String word : suggestions) 
 				  { System.out.println(word); 
 				  	//Storing to history
-					history.addSearch(word);}
+					history.addSearch(word);
+					}
 				  } 
 				  else {
 				  System.out.println("No suggestions found for prefix '" + query + "'."); 
