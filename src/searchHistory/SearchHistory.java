@@ -1,80 +1,49 @@
 package searchHistory;
 
+
+import java.util.HashMap;
+import java.util.PriorityQueue;
+import java.util.Map;
+
+/*
+ * Method to store entered input as history
+ */
+
+//Function to save all inputs entered by user
 public class SearchHistory {
+    private Map<String, Integer> searchFrequencyMap;
+    private PriorityQueue<String> mostFrequentSearches;
+    private int maxSize;
 
-	private static class TreeNode {
+ // Constructor to initialize the search history with a given maximum size
+    public SearchHistory(int maxSize) {
+        this.maxSize = maxSize;
+        searchFrequencyMap = new HashMap<>();
+        //Priority queue to store the frequency of search queries
+        mostFrequentSearches = new PriorityQueue<>((a, b) -> searchFrequencyMap.get(a) - searchFrequencyMap.get(b));
+    }
 
-		String key;
-		int frequency;
-		TreeNode left;
-		TreeNode right;
+ // Add a new search query to the history
+    public void addSearch(String searchQuery) {
+    	 // Increment the frequency of the search query
+        int frequency = searchFrequencyMap.getOrDefault(searchQuery, 0) + 1;
+        searchFrequencyMap.put(searchQuery, frequency);
+     // Update the priority queue with the most frequent searches
+        mostFrequentSearches.remove(searchQuery);
+        mostFrequentSearches.add(searchQuery);
+     // If the history exceeds the maximum size, remove the least frequent search query
+        if (mostFrequentSearches.size() > maxSize) {
+            searchFrequencyMap.remove(mostFrequentSearches.poll());
+        }
+    }
 
-		public TreeNode(String key, int frequency) {
-			this.key = key;
-			this.frequency = frequency;
-			this.left = null;
-			this.right = null;
-		}
-
-	}
-
-	private TreeNode root;
-	private int maxSize;
-
-	public SearchHistory(int maxSize) {
-		this.maxSize = maxSize;
-		this.root = null;
-	}
-
-	public void addSearch(String search) {
-		root = addSearchHelper(root, search);
-	}
-
-	private TreeNode addSearchHelper(TreeNode node, String search) {
-		if (node == null) {
-			return new TreeNode(search, 1);
-		}
-
-		int cmp = search.compareTo(node.key);
-		if (cmp == 0) {
-			node.frequency++;
-		} else if (cmp < 0) {
-			node.left = addSearchHelper(node.left, search);
-		} else {
-			node.right = addSearchHelper(node.right, search);
-		}
-		return node;
-	}
-
-	public int getOrDefault(String search, int defaultValue) {
-		return getOrDefaultHelper(root, search, defaultValue);
-	}
-
-	private int getOrDefaultHelper(TreeNode node, String search, int defaultValue) {
-		if (node == null) {
-			return defaultValue;
-		}
-
-		int cmp = search.compareTo(node.key);
-		if (cmp == 0) {
-			return node.frequency;
-		} else if (cmp < 0) {
-			return getOrDefaultHelper(node.left, search, defaultValue);
-		} else {
-			return getOrDefaultHelper(node.right, search, defaultValue);
-		}
-	}
-
-	public void printHistory() {
-		printHistoryHelper(root);
-	}
-
-	private void printHistoryHelper(TreeNode node) {
-		if (node != null) {
-			printHistoryHelper(node.left);
-			System.out.println(node.key + " - " + node.frequency);
-			printHistoryHelper(node.right);
-		}
-	}
-
-}
+    //Print the stored history
+    public void printHistory() {
+        PriorityQueue<String> tempmostFrequentSearches = new PriorityQueue<>((a, b) -> searchFrequencyMap.get(b) - searchFrequencyMap.get(a));
+        tempmostFrequentSearches.addAll(mostFrequentSearches);
+        while (!tempmostFrequentSearches.isEmpty()) {
+            String search = tempmostFrequentSearches.poll();
+            System.out.println(search + " - " + searchFrequencyMap.get(search));
+        }
+    }
+    }
