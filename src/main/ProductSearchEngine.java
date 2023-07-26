@@ -24,8 +24,9 @@ public class ProductSearchEngine {
 	static SearchHistory history = new SearchHistory(5);
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("******************************" + "\nWelcome to Product Search Engine"
-				+ "******************************");
+		System.out.println("\t********************************"+ 
+							"\n\tWelcome to Product Search Engine\n"+
+							"\t********************************");
 
 		// Continue the code
 		callingFunction();
