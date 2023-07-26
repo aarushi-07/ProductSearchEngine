@@ -1,7 +1,0 @@
-Product1,28.99,4
-Product2,14,5
-Product3,36.9,4
-Product4,42,3
-Product5,12,2
-Product6,45,4
-Product7,2,1

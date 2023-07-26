@@ -2,52 +2,48 @@ package searchHistory;
 
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Map;
 
 /*
  * Method to store entered input as history
- * @param maxSize limit to size of saved searches
- * @param freq keep track of frequency of search words
- */
-
-/**
- * @author
  */
 
 //Function to save all inputs entered by user
 public class SearchHistory {
-    private Map<String, Integer> freqMap;
-    private PriorityQueue<String> pq;
+    private Map<String, Integer> searchFrequencyMap;
+    private PriorityQueue<String> mostFrequentSearches;
     private int maxSize;
 
-//Create hashmap to store inputs
+ // Constructor to initialize the search history with a given maximum size
     public SearchHistory(int maxSize) {
         this.maxSize = maxSize;
-        freqMap = new HashMap<>();
+        searchFrequencyMap = new HashMap<>();
         //Priority queue to store the frequency of search queries
-        pq = new PriorityQueue<>((a, b) -> freqMap.get(a) - freqMap.get(b));
+        mostFrequentSearches = new PriorityQueue<>((a, b) -> searchFrequencyMap.get(a) - searchFrequencyMap.get(b));
     }
 
-    //Add new search query
-    public void addSearch(String search) {
-        //Repeatition of query increments the frequency of searches
-        int freq = freqMap.getOrDefault(search, 0) + 1;
-        freqMap.put(search, freq);
-        pq.remove(search);
-        pq.add(search);
-        if (pq.size() > maxSize) {
-            freqMap.remove(pq.poll());
+ // Add a new search query to the history
+    public void addSearch(String searchQuery) {
+    	 // Increment the frequency of the search query
+        int frequency = searchFrequencyMap.getOrDefault(searchQuery, 0) + 1;
+        searchFrequencyMap.put(searchQuery, frequency);
+     // Update the priority queue with the most frequent searches
+        mostFrequentSearches.remove(searchQuery);
+        mostFrequentSearches.add(searchQuery);
+     // If the history exceeds the maximum size, remove the least frequent search query
+        if (mostFrequentSearches.size() > maxSize) {
+            searchFrequencyMap.remove(mostFrequentSearches.poll());
         }
     }
 
-    //Printing the stored history
+    //Print the stored history
     public void printHistory() {
-        PriorityQueue<String> tempPq = new PriorityQueue<>((a, b) -> freqMap.get(b) - freqMap.get(a));
-        tempPq.addAll(pq);
-        while (!tempPq.isEmpty()) {
-            String search = tempPq.poll();
-            System.out.println(search + " - " + freqMap.get(search));
+        PriorityQueue<String> tempmostFrequentSearches = new PriorityQueue<>((a, b) -> searchFrequencyMap.get(b) - searchFrequencyMap.get(a));
+        tempmostFrequentSearches.addAll(mostFrequentSearches);
+        while (!tempmostFrequentSearches.isEmpty()) {
+            String search = tempmostFrequentSearches.poll();
+            System.out.println(search + " - " + searchFrequencyMap.get(search));
         }
     }
     }
