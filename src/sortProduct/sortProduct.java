@@ -1,5 +1,5 @@
 package sortProduct;
-
+//Import Statements
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ class Product {
     String name;
     double price;
     String site;
-
+    //constructor that initializes these fields
     Product(String name, double price, String site) {
         this.name = name;
         this.price = price;
@@ -27,9 +27,9 @@ public class sortProduct {
 
         List<Product> productList = readDataFromFile(filePath);
         if (productList != null) {
-
+        	
             Comparator<Product> comparator;
-            switch (sortingChoice) {
+            switch (sortingChoice) {  //user chooses the attribute by which the products will be sorted
                 case 1:
                     comparator = Comparator.comparing(product -> product.name);
                     break;
@@ -57,6 +57,9 @@ public class sortProduct {
         }
     }
 
+//    This method reads data from the specified file. It reads each line, 
+//    splits it into parts using the comma as a delimiter, then parses and stores each 
+//    part as a Product object in a List.
     private static List<Product> readDataFromFile(String filePath) {
         List<Product> productList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -74,7 +77,7 @@ public class sortProduct {
         return productList;
     }
 
-    private static <T> void mergeSort(List<T> list, Comparator<? super T> comparator) {
+    private static <T> void mergeSort(List<T> list, Comparator<? super T> comparator) {  //generic method implementing the merge sort algorithm
         if (list.size() > 1) {
             int mid = list.size() / 2;
             List<T> leftList = new ArrayList<>(list.subList(0, mid));
